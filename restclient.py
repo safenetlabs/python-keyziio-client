@@ -107,7 +107,12 @@ class RestClient(object):
     def _set_auth_token(self, auth_token):
         self._api().params['auth_token'] = auth_token
 
-    def get_new_key(self):
+    def get_new_key(self, key_id):
+        if key_id:
+            self._api().params['identifier'] = key_id
+        else:
+            self._api().params.pop("identifier", None)
+
         return self.get(NEW_KEY_PATH).json()
 
     def get_key(self, key_id):

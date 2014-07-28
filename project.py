@@ -9,7 +9,7 @@ import tarfile
 import restclient
 from Crypto.Cipher import AES
 import base64
-import shutil
+import uuid
 
 
 def create_project(project):
@@ -21,8 +21,9 @@ def create_project(project):
     raw_tar.close()
 
     # now call into keyzio to create a key
+    key_id = str(uuid.uuid4())
     rest_client = restclient.RestClient()
-    new_key_json = rest_client.get_new_key()
+    new_key_json = rest_client.get_new_key(key_id)
 
     encrypt_project(project, project_tar_name, new_key_json)
     os.remove(project_tar_name)
@@ -64,7 +65,7 @@ def encrypt_project(project, project_tar_name, new_key_json):
     file_in = open(project_tar_name, 'rb')
     plain_text = file_in.read()
     cipher_text = cipher.encrypt(plain_text)
-    file_out_name = '{}.{}.keyzio'.format(project, new_key_json['id'])
+    file_out_name = '{}.{}.keyzio'.format(project, new_key_json['identifier'])
     file_out = open(file_out_name, 'wb+')
     file_out.write(cipher_text)
     print "Created encrypted archive {}".format(file_out_name)
