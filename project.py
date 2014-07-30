@@ -23,6 +23,7 @@ def create_project(project):
     key_id = str(uuid.uuid4())
     file_out_name = '{}.{}.keyzio'.format(project, key_id)
     keyz = keyzio.KeyZIO()
+    keyz.authenticate()
     keyz.new_key(key_id)
     keyz.encrypt_file(key_id, project_tar_name, file_out_name)
     os.remove(project_tar_name)
@@ -33,6 +34,7 @@ def extract_project(project_keyzio_name):
     bits = project_keyzio_name.split('.')
     key_id = bits[-2]
     keyz = keyzio.KeyZIO()
+    keyz.authenticate()
     file_out_name = '{}.{}.raw'.format(bits[0], key_id)
     keyz.decrypt_file(key_id, project_keyzio_name, file_out_name)
     # Now untar it

@@ -72,6 +72,8 @@ class RestClient(object):
         self._serverURL = "localhost" #samconfig.servername()
         self._serverPort = 3000 #samconfig.serverport()
         self._useSSL = False
+        self.auth_data = None
+
         #logging.debug("ServerURL: " + samconfig.servername())
         # if samconfig.serverport():
         #     logging.debug("ServerPort: " + samconfig.serverport())
@@ -92,7 +94,8 @@ class RestClient(object):
     def _api(self):
         if not self._session:
             self._session = requests.session()
-            self._session.headers.update({'Accept': 'application/json', 'Content-Type': 'application/json'})
+            self._session.headers.update({'Accept': 'application/json', 'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer {0}'.format(self.auth_data['access_token'])})
             default_user_agent = self._session.headers['User-Agent']
             self._session.headers['User-Agent'] = 'Keyzio Python Client'
             #self._session.verify = os.path.abspath(os.path.join(sampaths.resources_path(), 'cacerts.txt'))
@@ -104,8 +107,10 @@ class RestClient(object):
         if 'auth_token' in api.params:
             del api.params['auth_token']
 
-    def _set_auth_token(self, auth_token):
-        self._api().params['auth_token'] = auth_token
+    def set_auth_data(self, auth_data):
+        self.auth_data = auth_data
+        self._api().params['user_id'] = self.auth_data['id']
+        self._api().params['access_token'] = self.auth_data['access_token']
 
     def get_new_key(self, key_id):
         if key_id:
@@ -113,10 +118,12 @@ class RestClient(object):
         else:
             self._api().params.pop("identifier", None)
 
+
         return self.get(NEW_KEY_PATH).json()
 
     def get_key(self, key_id):
         return self.get('keyz/{}'.format(key_id)).json()
+
 
 
     #

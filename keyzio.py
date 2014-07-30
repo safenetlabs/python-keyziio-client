@@ -9,6 +9,13 @@ class KeyZIO(object):
     def __init__(self):
         self._rest_client = restclient.RestClient()
 
+    def authenticate(self):
+        # Authentication is currently not against the rest server but instead directly against the OAuth2 Auth Server
+        # which is github in this hackathon
+        import authenticate
+        self._rest_client.set_auth_data(authenticate.authenticate())
+
+
     def new_key(self, key_id):
         return self._rest_client.get_new_key(key_id)
 

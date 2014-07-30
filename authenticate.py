@@ -11,9 +11,12 @@ from BaseHTTPServer import BaseHTTPRequestHandler
 from BaseHTTPServer import HTTPServer
 import logging
 import json
+import threading
 
 log = logging.getLogger(__name__)
 
+# I will return this from the authenticate call
+auth_data = None
 
 
 # Facebook
@@ -134,12 +137,19 @@ class SampleAppHTTPRequestHandler(BaseHTTPRequestHandler):
                                                                                                   data['login'],
                                                                                                   data['id']))
 
+        # Authentication result
+        global auth_data
+        auth_data = data
+        auth_data['access_token'] = c.access_token
+
+        # kill our server, our job is done
+        threading.Thread(target=lambda: httpd.shutdown()).start()
+
 def open_browser(auth_uri):
     import webbrowser
     webbrowser.open_new(auth_uri)
 
 def launch_browser_to_authenticate(auth_uri):
-    import threading
     threading.Thread(target=lambda:open_browser(auth_uri)).start()
 
 def authenticate():
@@ -150,10 +160,10 @@ def authenticate():
     SampleAppHTTPRequestHandler.protocol_version = 'HTTP/1.0'
     #SampleAppHTTPRequestHandler.settings = settings
     #SampleAppHTTPRequestHandler.saml_post_path = parts.path
-    httpd = HTTPServer(
-        ("localhost", 3001),
-        SampleAppHTTPRequestHandler,
-    )
+    # httpd = HTTPServer(
+    #     ("localhost", 3001),
+    #     SampleAppHTTPRequestHandler,
+    # )
 
     socket_name = httpd.socket.getsockname()
 
@@ -166,6 +176,7 @@ def authenticate():
 
     launch_browser_to_authenticate(auth_uri)
     httpd.serve_forever()
+    return auth_data
 
     # request_token_url = "http://facebook.com/oauth/request_token"
     # access_token_url = 'http://facebook.com/oauth/access_token'
@@ -227,8 +238,11 @@ def authenticate():
     # print
 
 
+httpd = HTTPServer(("localhost", 3001), SampleAppHTTPRequestHandler,)
+
+
 def main():
-    authenticate()
+    print authenticate()
 
 
 if __name__ == "__main__":
