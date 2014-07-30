@@ -1,0 +1,33 @@
+# This file contains dependencies common to all platforms.
+
+# Recommended installation on mac (homebrew):
+# 1. `brew install python`
+# 2. Add /usr/local/share/python to your path in your ~/.bash_profile or whatever
+# 3. `pip install virtualenv`
+# 4. cd to client/sam/sam then `virtualenv --distribute venv`
+# 5. `source venv/bin/activate`  You are now working in the isolated environment.  run `pip freeze` to see what's
+#    installed there
+# 6. `pip install -r requirements.txt`
+
+requests==2.0.1
+psutil==0.7.0
+pathtools==0.1.2
+py==1.4.12
+nmevent==0.3.2
+PyYAML==3.10
+argh==0.23.0
+argparse==1.2.1
+pycrypto==2.6.1
+#watchdog==0.7.1
+#pyside==1.2.1
+
+# Below are just for tests
+pytest==2.3.4
+git+https://github.com/JetBrains/teamcity-python.git@edfb215335328428bf91e4c3b1f2950963eb53e0#egg=teamcity-messages
+mock==1.0.1
+configobj==4.7.2
+
+distribute==0.6.31
+
+
+
