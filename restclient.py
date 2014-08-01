@@ -11,6 +11,7 @@ import base64
 import os
 import requests
 import requests.exceptions
+import requests.auth
 import traceback
 
 NEW_KEY_PATH = "keyz.json/new"    # GET
@@ -90,8 +91,9 @@ class RestClient(object):
     def _api(self):
         if not self._session:
             self._session = requests.session()
-            self._session.headers.update({'Accept': 'application/json', 'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer {0}'.format(self.auth_data['access_token'])})
+            self._session.headers.update({'Accept': 'application/json', 'Content-Type': 'application/json'})
+                #,'Authorization': 'Bearer {0}'.format(self.auth_data['access_token'])
+
             default_user_agent = self._session.headers['User-Agent']
             self._session.headers['User-Agent'] = 'Keyzio Python Client'
             #self._session.verify = os.path.abspath(os.path.join(sampaths.resources_path(), 'cacerts.txt'))
@@ -103,18 +105,24 @@ class RestClient(object):
         if 'auth_token' in api.params:
             del api.params['auth_token']
 
-    def set_auth_data(self, auth_data):
+    def set_oauth2_data(self, auth_data):
         self.auth_data = auth_data
         self._api().params['user_id'] = self.auth_data['id']
         self._api().params['access_token'] = self.auth_data['access_token']
+
+    def create_user(self, username, password):
+        return self.post("users.json", {'email':username, 'password':password}).json()
+
+    def authenticate(self, username, password):
+        #response = requests.auth.HTTPDigestAuth(username, password)
+        # todo...
+        return self.post("sessions.json", {'email':username, 'password':password}).json()
 
     def get_new_key(self, key_id):
         if key_id:
             self._api().params['identifier'] = key_id
         else:
             self._api().params.pop("identifier", None)
-
-
         return self.get(NEW_KEY_PATH).json()
 
     def get_key(self, key_id):
@@ -149,3 +157,14 @@ class RestClient(object):
             response = doit(5)
             response.raise_for_status()
             return response
+
+
+if __name__ == "__main__":
+    try:
+        rc = RestClient()
+        rc._serverURL = "172.16.10.224"
+        rc.create_user("j2", "password")
+        rc.authenticate("j2", "password")
+    except Exception as e:
+        print e
+    print "finished"
