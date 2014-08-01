@@ -13,12 +13,8 @@ import requests
 import requests.exceptions
 import traceback
 
-NEW_KEY_PATH = "keyz/new"    # GET
+NEW_KEY_PATH = "keyz.json/new"    # GET
 GET_KEY_PATH = "keyz"         # GET
-
-#define USERS_URL [NSString stringWithFormat:@"%@%@",SERVER,@"/users"]
-#define USER_URL [NSString stringWithFormat:@"%@%@",SERVER,@"/user"]
-#define USER_URL_AUTH(AUTH_TOKEN) [NSString stringWithFormat:(@"%@?auth_token=%@"),USER_URL,AUTH_TOKEN]
 
 def password_digest(authSalt, password):
     pw_digest = base64.b64encode(hashlib.sha512(password + authSalt).digest())
@@ -124,61 +120,6 @@ class RestClient(object):
     def get_key(self, key_id):
         return self.get('keyz/{}'.format(key_id)).json()
 
-
-
-    #
-    # def getUserData(self):
-    #     """ User must have logged in already via login.  Returns the userBlob if the user has been onboarded,
-    #     raises AuthFailure if the auth failed. connection failure if not connected at all, or ServerFailure if other response"""
-    #     return self.get(USER_PATH).json()
-    #
-    # def uploadUserData(self, userData):
-    #     """ upload the userData dictionary """
-    #     return self.put(USER_PATH, data=userData)
-    #
-    # def uploadRecoveryPK(self, wrappedPK, keyId):
-    #     """upload the recovery key and key id"""
-    #     return self.post(RECOVERY_PATH, data={'key': wrappedPK, 'key_id': keyId}).json()
-    #
-    # def getRecoveryPKs(self):
-    #     """upload the recovery key and key id"""
-    #     return self.get(RECOVERY_PATH).json()
-    #
-    # def getResetKey(self):
-    #     return self.get(RESET_KEY_PATH).json()
-    #
-    # def getIncomingShares(self):
-    #     return self.get(INCOMING_SHARES_PATH).json()
-    #
-    # def getShares(self, etag=None):
-    #     response = self.get(SHARES_PATH, etag=etag)
-    #     # 304 is not modified
-    #     if response.status_code == 304:
-    #         return None, etag
-    #     return (response.json(), None if 'etag' not in response.headers else str(response.headers['etag']))
-    #
-    # def getShare(self, share_id):
-    #     return self.get("{}/{}".format(SHARES_PATH, share_id)).json()
-    #
-    # def getUser(self, user_id):
-    #     return self.get("{}/{}".format(USERS_PATH, user_id)).json()
-    #
-    # def createUser(self, user_dict):
-    #     return self.post(USERS_PATH, user_dict).json()
-    #
-    # def updateUser(self, user_id, user_dict):
-    #     return self.put("{}/{}".format(USERS_PATH, user_id), user_dict).status_code
-    #
-    # def createShare(self, key_id):
-    #     share = {
-    #         "key_id": key_id,
-    #         "key_type": "shek"
-    #     }
-    #     return self.post(SHARES_PATH, share).json()
-    #
-    # def updateShare(self, share_id, share_dict):
-    #     return self.put("{}/{}".format(SHARES_PATH, share_id), share_dict).status_code
-    #
     def put(self, path, data=None, **kwargs):
         return self.api_call('PUT', path, data, **kwargs)
 
@@ -208,17 +149,3 @@ class RestClient(object):
             response = doit(5)
             response.raise_for_status()
             return response
-    #
-    # def _challengeResponse(self, password, challenge, authSalt):
-    #     """ Doc on wiki is wrong.  Referencing David's code':
-    #         //1. pw_concat = savedPassword + authSalt
-    #         //2. pw_digest = (pw_concat sha512 (as bytes))base64
-    #         //3. challenge_concat = pw_digest + challenge
-    #         //4. response = ((challenge_concat) sha512)  base64 """
-    #
-    #     # My original version
-    #     pw_digest = password_digest(authSalt, password)
-    #     resp = base64.b64encode(hashlib.sha512(pw_digest + challenge).digest())
-    #
-    #     logging.debug("challenge response = %s" % resp)
-    #     return resp

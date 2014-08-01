@@ -123,6 +123,8 @@ class SampleAppHTTPRequestHandler(BaseHTTPRequestHandler):
         parts = urlparse.urlparse(self.path)
         query = urlparse.parse_qs(parts.query)
 
+        print self.headers
+
         # Convert code to an access token
         code = query['code'][0]
         c.request_token(code=code)
