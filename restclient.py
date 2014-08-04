@@ -14,8 +14,7 @@ import requests.exceptions
 import requests.auth
 import traceback
 
-NEW_KEY_PATH = "keys.json/new"    # GET -- TODO: Remove
-USER_KEY_PATH = "user_keys"         # GET
+USER_KEY_PATH = "user_keys.json"         # GET
 
 def password_digest(authSalt, password):
     pw_digest = base64.b64encode(hashlib.sha512(password + authSalt).digest())
