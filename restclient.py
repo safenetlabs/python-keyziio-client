@@ -14,8 +14,8 @@ import requests.exceptions
 import requests.auth
 import traceback
 
-NEW_KEY_PATH = "keyz.json/new"    # GET
-GET_KEY_PATH = "keyz"         # GET
+NEW_KEY_PATH = "keys.json/new"    # GET -- TODO: Remove
+USER_KEY_PATH = "user_keys"         # GET
 
 def password_digest(authSalt, password):
     pw_digest = base64.b64encode(hashlib.sha512(password + authSalt).digest())
@@ -116,17 +116,17 @@ class RestClient(object):
     def authenticate(self, username, password):
         #response = requests.auth.HTTPDigestAuth(username, password)
         # todo...
-        return self.post("sessions.json", {'email':username, 'password':password}).json()
+        return self.post("sessions.json", {'email':username, 'password':password}).status_code == 200
 
     def get_new_key(self, key_id):
+        return self.post(USER_KEY_PATH, data={'identifier':key_id}).json()
+
+    def get_key(self, key_id):
         if key_id:
             self._api().params['identifier'] = key_id
         else:
             self._api().params.pop("identifier", None)
-        return self.get(NEW_KEY_PATH).json()
-
-    def get_key(self, key_id):
-        return self.get('keyz/{}'.format(key_id)).json()
+        return self.get(USER_KEY_PATH).json()
 
     def put(self, path, data=None, **kwargs):
         return self.api_call('PUT', path, data, **kwargs)

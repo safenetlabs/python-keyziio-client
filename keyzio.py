@@ -17,7 +17,7 @@ class KeyZIO(object):
         self._rest_client.set_oauth2_data(oauth2authenticate.authenticate())
 
     def authenticate(self, username, password):
-        self._rest_client.set_auth_digest(username, password)
+        return self._rest_client.authenticate(username, password)
 
     def create_user(self, username, password):
         self._rest_client.create_user(username, password)
@@ -44,15 +44,28 @@ class KeyZIO(object):
     def encrypt(self, key_id, data_in):
         """ Returns cipher text
         """
-        return self._init_cipher(key_id).encrypt(data_in)
+        cipher = self._init_cipher(key_id)
+        # PKCS #7 padding
+        pad_length = cipher.block_size - (len(data_in) % cipher.block_size)
+        if pad_length == 0:
+            pad_length = cipher.block_size
+        data_in += chr(pad_length) * pad_length
+        return cipher.encrypt(data_in)
+
 
     def decrypt(self, key_id, data_in):
         """ Returns plain text
         """
-        return self._init_cipher(key_id).decrypt(data_in)
+        cipher = self._init_cipher(key_id)
+        data_out = cipher.decrypt(data_in)
+        return data_out[:-ord(data_out[-1])]
 
     def _init_cipher(self, key_id):
-        key_json = self._rest_client.get_key(key_id)
+        keys = self._rest_client.get_key(key_id)
+        if len(keys) == 0:
+            # create the key
+            keys = self._rest_client.get_new_key(key_id)
+        key_json = keys[0]
         raw_key = base64.b64decode(key_json['cipher_key'])
         raw_iv = base64.b64decode(key_json['cipher_iv'])
         return AES.new(raw_key, AES.MODE_CBC, raw_iv)

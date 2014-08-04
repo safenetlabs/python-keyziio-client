@@ -19,11 +19,13 @@ def main():
     if args.create_user:
         _keyzio_api.create_user(args.username, args.password)
     if args.encrypt_file or args.decrypt_file:
-        _keyzio_api.authenticate(args.username, args.password)
-        if args.encrypt_file:
-            _keyzio_api.encrypt_file(args.key_id, args.encrypt_file[0], args.encrypt_file[1])
-        if args.decrypt_file:
-            _keyzio_api.decrypt_file(args.key_id, args.decrypt_file[0], args.decrypt_file[1])
+        if not _keyzio_api.authenticate(args.username, args.password):
+            print "Authentication failed"
+        else:
+            if args.encrypt_file:
+                _keyzio_api.encrypt_file(args.key_id, args.encrypt_file[0], args.encrypt_file[1])
+            if args.decrypt_file:
+                _keyzio_api.decrypt_file(args.key_id, args.decrypt_file[0], args.decrypt_file[1])
 
 if __name__ == "__main__":
     try:
