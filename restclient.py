@@ -14,8 +14,6 @@ import requests.exceptions
 import requests.auth
 import traceback
 
-USER_KEY_PATH = "user_keys.json"         # GET
-
 def password_digest(authSalt, password):
     pw_digest = base64.b64encode(hashlib.sha512(password + authSalt).digest())
     return pw_digest
@@ -64,9 +62,15 @@ class SmRestHandler():
 class RestClient(object):
     """ Our Rest Client """
 
+    USER_KEY_PATH = "user_keys.json"
+    SESSIONS_PATH = "sessions.json"
+    USERS_PATH = "users.json"
+
     def __init__(self):
-        self._serverURL = "localhost" #samconfig.servername()
-        self._serverPort = 3000 #samconfig.serverport()
+        # TODO: Enable SSL support and point to a hosted service
+
+        self._serverURL = "keyzio.herokuapp.com" #localhost" #samconfig.servername()
+        self._serverPort = 80 #3000 #samconfig.serverport()
         self._useSSL = False
         self.auth_data = None
 
@@ -110,22 +114,22 @@ class RestClient(object):
         self._api().params['access_token'] = self.auth_data['access_token']
 
     def create_user(self, username, password):
-        return self.post("users.json", {'email':username, 'password':password}).json()
+        return self.post(self.USERS_PATH, {'email':username, 'password':password}).json()
 
     def authenticate(self, username, password):
-        #response = requests.auth.HTTPDigestAuth(username, password)
-        # todo...
-        return self.post("sessions.json", {'email':username, 'password':password}).status_code == 200
+        # Very basic authentication, other authentication mechanisms will be added
+        if self.post(self.SESSIONS_PATH, {'email':username, 'password':password}).status_code != 200:
+            raise AuthFailure
 
     def get_new_key(self, key_id):
-        return self.post(USER_KEY_PATH, data={'identifier':key_id}).json()
+        return self.post(self.USER_KEY_PATH, data={'identifier':key_id}).json()
 
     def get_key(self, key_id):
         if key_id:
             self._api().params['identifier'] = key_id
         else:
             self._api().params.pop("identifier", None)
-        return self.get(USER_KEY_PATH).json()
+        return self.get(self.USER_KEY_PATH).json()
 
     def put(self, path, data=None, **kwargs):
         return self.api_call('PUT', path, data, **kwargs)
@@ -156,14 +160,3 @@ class RestClient(object):
             response = doit(5)
             response.raise_for_status()
             return response
-
-
-if __name__ == "__main__":
-    try:
-        rc = RestClient()
-        rc._serverURL = "172.16.10.224"
-        rc.create_user("j2", "password")
-        rc.authenticate("j2", "password")
-    except Exception as e:
-        print e
-    print "finished"

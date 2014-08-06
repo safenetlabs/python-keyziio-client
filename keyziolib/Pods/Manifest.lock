@@ -1,0 +1,24 @@
+PODS:
+  - boost (1.51.0):
+    - boost/graph-includes
+    - boost/math-includes
+    - boost/numeric-includes
+    - boost/pointer_cast-includes
+    - boost/preprocessor-includes
+    - boost/shared_ptr-includes
+    - boost/string_algorithms-includes
+  - boost/graph-includes (1.51.0)
+  - boost/math-includes (1.51.0)
+  - boost/numeric-includes (1.51.0)
+  - boost/pointer_cast-includes (1.51.0)
+  - boost/preprocessor-includes (1.51.0)
+  - boost/shared_ptr-includes (1.51.0)
+  - boost/string_algorithms-includes (1.51.0)
+
+DEPENDENCIES:
+  - boost
+
+SPEC CHECKSUMS:
+  boost: 581038adda16d11045576013ad27e3eeeabc2d10
+
+COCOAPODS: 0.33.1

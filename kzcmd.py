@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+import restclient
+
 __author__ = 'James FitzGerald'
 
 import argparse
 import keyzio
+
 
 def _setup_args():
     parser = argparse.ArgumentParser(description='Keyz Command Line Wrapper Arguments')
@@ -13,23 +17,27 @@ def _setup_args():
     parser.add_argument('-p', '--password', help="users password")
     return parser.parse_args()
 
+
 def main():
     _keyzio_api = keyzio.KeyZIO()
     args = _setup_args()
     if args.create_user:
         _keyzio_api.create_user(args.username, args.password)
     if args.encrypt_file or args.decrypt_file:
-        if not _keyzio_api.authenticate(args.username, args.password):
-            print "Authentication failed"
-        else:
-            if args.encrypt_file:
-                _keyzio_api.encrypt_file(args.key_id, args.encrypt_file[0], args.encrypt_file[1])
-            if args.decrypt_file:
-                _keyzio_api.decrypt_file(args.key_id, args.decrypt_file[0], args.decrypt_file[1])
+        # it will throw an exception if authentication fails
+        _keyzio_api.authenticate(args.username, args.password)
+        if args.encrypt_file:
+            _keyzio_api.encrypt_file(args.key_id, args.encrypt_file[0], args.encrypt_file[1])
+        if args.decrypt_file:
+            _keyzio_api.decrypt_file(args.key_id, args.decrypt_file[0], args.decrypt_file[1])
+
 
 if __name__ == "__main__":
     try:
         main()
+    except restclient.AuthFailure:
+        print "Invalid username / password"
+        exit(1)
     except Exception as e:
-        print e
-    print "finished"
+        print "Operation failed: {}".format(e)
+        exit(1)

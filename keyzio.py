@@ -1,5 +1,5 @@
 __author__ = 'James FitzGerald'
-""" Client side API for Keyzio / AasMountain / AasGuard / Keyster etc.... """
+""" Client side API for Keyzio  """
 import restclient
 import base64
 import os.path
@@ -21,7 +21,7 @@ class KeyZIO(object):
         self._rest_client.set_oauth2_data(oauth2authenticate.authenticate())
 
     def authenticate(self, username, password):
-        return self._rest_client.authenticate(username, password)
+        self._rest_client.authenticate(username, password)
 
     def create_user(self, username, password):
         self._rest_client.create_user(username, password)
@@ -77,8 +77,9 @@ class KeyZIO(object):
         keys = self._rest_client.get_key(key_id)
         if len(keys) == 0:
             # create the key
-            keys = self._rest_client.get_new_key(key_id)
-        key_json = keys[0]
+            key_json = self._rest_client.get_new_key(key_id)
+        else:
+            key_json = keys[0]
         raw_key = base64.b64decode(key_json['cipher_key'])
         raw_iv = base64.b64decode(key_json['cipher_iv'])
         return AES.new(raw_key, AES.MODE_CBC, raw_iv)

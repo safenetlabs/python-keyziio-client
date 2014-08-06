@@ -5,9 +5,6 @@ import argparse
 import os
 import sys
 import tarfile
-#import restclient
-#from Crypto.Cipher import AES
-#import base64
 import keyzio
 import uuid
 
