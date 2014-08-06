@@ -20,6 +20,7 @@ argparse==1.2.1
 pycrypto==2.6.1
 #watchdog==0.7.1
 #pyside==1.2.1
+cmd2==0.6.7
 
 # Below are just for tests
 pytest==2.3.4
