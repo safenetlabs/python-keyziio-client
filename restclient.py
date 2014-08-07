@@ -58,11 +58,11 @@ class SmRestHandler():
 class RestClient(object):
     """ Our Rest Client """
 
-    USER_KEY_PATH = "user_keys.json"
+    USER_KEY_PATH = "api/v1/data_keys/{}"
     SESSIONS_PATH = "sessions.json"
     USERS_PATH = "users.json"
 
-    def __init__(self, server_url="keyzio.herokuapp.com", server_port=80, use_ssl=False):
+    def __init__(self, server_url="safex-demo.herokuapp.com", server_port=80, use_ssl=False):
         # TODO: Enable SSL support and point to a hosted service
 
         self._server_url = server_url
@@ -98,16 +98,16 @@ class RestClient(object):
             #self._session.verify = os.path.abspath(os.path.join(sampaths.resources_path(), 'cacerts.txt'))
         return self._session
 
-    def _clear_auth_token(self):
-        api = self._api()
-        api.cookies.clear()
-        if 'auth_token' in api.params:
-            del api.params['auth_token']
-
-    def set_oauth2_data(self, auth_data):
-        self.auth_data = auth_data
-        self._api().params['user_id'] = self.auth_data['id']
-        self._api().params['access_token'] = self.auth_data['access_token']
+    # def _clear_auth_token(self):
+    #     api = self._api()
+    #     api.cookies.clear()
+    #     if 'auth_token' in api.params:
+    #         del api.params['auth_token']
+    #
+    # def set_oauth2_data(self, auth_data):
+    #     self.auth_data = auth_data
+    #     self._api().params['user_id'] = self.auth_data['id']
+    #     self._api().params['access_token'] = self.auth_data['access_token']
 
     # def create_user(self, username, password):
     #     return self.post(self.USERS_PATH, {'email':username, 'password':password}).json()
@@ -117,15 +117,16 @@ class RestClient(object):
     #     if self.post(self.SESSIONS_PATH, {'email':username, 'password':password}).status_code != 200:
     #         raise AuthFailure
 
-    def get_new_key(self, key_id):
-        return self.post(self.USER_KEY_PATH, data={'identifier':key_id}).json()
+    # def get_new_key(self, key_id):
+    #     return self.post(self.USER_KEY_PATH, data={'identifier':key_id}).json()
 
-    def get_key(self, key_id):
-        if key_id:
-            self._api().params['identifier'] = key_id
-        else:
-            self._api().params.pop("identifier", None)
-        return self.get(self.USER_KEY_PATH).json()
+    def get_key(self, key_id, user_id):
+        # if key_id:
+        #     self._api().params['identifier'] = key_id
+        # else:
+        #     self._api().params.pop("identifier", None)
+        self._api().params['user_id'] = user_id
+        return self.get(self.USER_KEY_PATH.format(key_id)).json()
 
     def put(self, path, data=None, **kwargs):
         return self.api_call('PUT', path, data, **kwargs)

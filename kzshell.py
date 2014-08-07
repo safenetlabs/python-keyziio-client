@@ -21,33 +21,37 @@ class KzShell(Cmd):
         self._asp_rest_client = restclient.RestClient()
         self._asp_rest_client._server_port = 3000
         self._asp_rest_client._server_url = "localhost"
-
         self._keyzio = keyzio.KeyZIO()
-        # This next section is temporary, I am going to load a key directly from disk
-        # but we really expect to get this from the ASP
-        #
-        with open('userkey.pem', 'r') as f:
-            private_key = f.read()
-            f.close()
-        self._keyzio.inject_user_key(private_key)
+
 
     def do_login(self, arg):
         'Logs the user in and sets up the users keyzio session: login-user username'
-        print "attempting to login {}".format(arg)
-        response = self._asp_rest_client.api_call("GET", "keys/{}".format(arg)).json()
+        print "logging {} in...".format(arg)
+        response = self._asp_rest_client.api_call("GET", "user_keys/{}".format(arg)).json()
+        self._keyzio.inject_user_key(response['private_key'], response['id'])
         self._logged_in = True
-
         print "Successfully retrieved user key and ignited keyzio"
-        # todo: init keyzio with response['key']
+
 
     def do_encrypt(self, arg):
-        'Encrypts input_file with key_id to output_file: encrypt key_id input_file output_file'
+        'Encrypts input_file with key_id to output_file: encrypt input_file output_file key_id'
         if self._login_check():
             arg_split = arg.split()
             if len(arg_split) < 3:
-                print "Invalid arguments.  Try '? encrypt' for more information"
+                print "Invalid arguments.  Usage: encrypt input_file output_file key_id"
             else:
-                print "pretending to encrypt {} with key:{}".format(arg_split[1], arg_split[0])
+                print "pretending to encrypt {} with key:{}".format(arg_split[0], arg_split[2])
+                self._keyzio.encrypt_file(*arg_split)
+
+    def do_decrypt(self, arg):
+        'Decrypts input file to output file.  Gets the key_id from the file header'
+        if self._login_check():
+            arg_split = arg.split()
+            if len(arg_split) < 2:
+                print "Invalid arguments.  Usage: decrypt input_file output_file"
+            else:
+                print "pretending to decrypt {}".format(arg_split[0])
+                self._keyzio.decrypt_file(*arg_split)
 
     def _login_check(self):
         if not self._logged_in:

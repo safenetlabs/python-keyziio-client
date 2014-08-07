@@ -14,14 +14,14 @@ class UnsupportedKeyzioVersionException(Exception):
 class Header(object):
     """
     The header is not a fixed length.  The format is as follows:
-        Prelude : 128 byte string
+        Preamble : 128 byte string
         Magic Number: 32 byte string preset as "d371004cba8d4fafaeb324f72a52d91b"
         Version: 4 byte unsigned long
         Length: Length of the header data (the rest of the header)
         Header Data: Variable length string containing json encoded header data.  It currently just includes a 'key_id'
          key/value pair.
     """
-    _PRELUDE_FORMAT = "<128s"
+    _PREAMBLE_FORMAT = "<128s"
     _MAGIC_NUMBER_FORMAT = "<32s"
     _VERSION_FORMAT = "<L"
     _LENGTH_FORMAT = "<L"
@@ -29,20 +29,22 @@ class Header(object):
     _MAGIC_NUMBER = "d371004cba8d4fafaeb324f72a52d91b"
     _VERSION = 1
 
+    _FIXED_HEADER_SECTION_LENGTH = 128 + 32 + 4 + 4 # pre
+
     def __init__(self):
         super(Header, self).__init__()
-        self._prelude = "www.keyzio.com Encrypted File"
+        self._preamble = "www.keyzio.com Encrypted File"
         self._key_id = None
         self._version = self._VERSION
 
     @property
-    def prelude(self):
-        return self._prelude
+    def preamble(self):
+        return self._preamble
 
-    @prelude.setter
-    def prelude(self, value):
+    @preamble.setter
+    def preamble(self, value):
         # todo: add in a size check here
-        self._prelude = value
+        self._preamble = value
 
     @property
     def key_id(self):
@@ -52,13 +54,9 @@ class Header(object):
     def key_id(self, value):
         self._key_id = value
 
-    def decode_from_file(self, file):
-        """ decodes the header from a file.  If the file is not a keyzio file we will throw a KeyzioDecodeException """
-        pass
-
     def encode(self):
         """ returns a packed header """
-        packed_prelude = struct.pack(self._PRELUDE_FORMAT, self._prelude)
+        packed_prelude = struct.pack(self._PREAMBLE_FORMAT, self._preamble)
         packed_magic_number = struct.pack(self._MAGIC_NUMBER_FORMAT, self._MAGIC_NUMBER)
         packed_version = struct.pack(self._VERSION_FORMAT, self._VERSION)
         header_content = json.dumps({'key_id':self._key_id})
@@ -66,13 +64,17 @@ class Header(object):
         packed_length = struct.pack(self._LENGTH_FORMAT, len(packed_header_content))
         return packed_prelude + packed_magic_number + packed_version + packed_length + packed_header_content
 
-
     def decode(self, packed_header):
         """ decodes a packed header """
+        header_data_length = self._decode_fixed_header_section(packed_header)
+        self._decode_header_content_section(packed_header, header_data_length, self._FIXED_HEADER_SECTION_LENGTH)
+
+    def _decode_fixed_header_section(self, packed_header):
+        """ Decodes the header, throws exceptions if it is invalid and returns the length of the data section """
         offset = 0
         # prelude
-        self._prelude = struct.unpack_from(self._PRELUDE_FORMAT, packed_header, offset)[0]
-        offset += struct.calcsize(self._PRELUDE_FORMAT)
+        self._preamble = struct.unpack_from(self._PREAMBLE_FORMAT, packed_header, offset)[0]
+        offset += struct.calcsize(self._PREAMBLE_FORMAT)
         # magic number
         magic_number = struct.unpack_from(self._MAGIC_NUMBER_FORMAT, packed_header, offset)[0]
         offset += struct.calcsize(self._MAGIC_NUMBER_FORMAT)
@@ -86,11 +88,24 @@ class Header(object):
         # length
         length = struct.unpack_from(self._LENGTH_FORMAT, packed_header, offset)[0]
         offset += struct.calcsize(self._LENGTH_FORMAT)
+        return length
 
+    def _decode_header_content_section(self, header_content, length, offset=0):
+        """ decodes the header content from offset of header_content """
         # header-data
-        header_data = struct.unpack_from("<{}s".format(length), packed_header, offset)[0]
+        header_data = struct.unpack_from("<{}s".format(length), header_content, offset)[0]
         self._key_id = json.loads(header_data)['key_id']
 
+    def decode_from_file(self, file_name):
+        """
+        Decodes the header from a file.  If the file is not a keyzio file we will throw a KeyzioDecodeException
+        Returns the length of the entire header (i.e. the offset for the real encrypted data """
+        with open(file_name, 'rb') as f:
+            fixed_header_section = f.read(self._FIXED_HEADER_SECTION_LENGTH)
+            header_content_length = self._decode_fixed_header_section(fixed_header_section)
+            header_content_section = f.read(header_content_length)
+            self._decode_header_content_section(header_content_section, header_content_length, 0)
+        return self._FIXED_HEADER_SECTION_LENGTH + header_content_length
 
 if __name__ == "__main__":
     # just for debugging...
