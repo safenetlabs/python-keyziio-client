@@ -14,10 +14,6 @@ import requests.exceptions
 import requests.auth
 import traceback
 
-def password_digest(authSalt, password):
-    pw_digest = base64.b64encode(hashlib.sha512(password + authSalt).digest())
-    return pw_digest
-
 class AuthFailure(Exception):
     """ Authentication attempt failed"""
     pass
@@ -66,12 +62,12 @@ class RestClient(object):
     SESSIONS_PATH = "sessions.json"
     USERS_PATH = "users.json"
 
-    def __init__(self):
+    def __init__(self, server_url="keyzio.herokuapp.com", server_port=80, use_ssl=False):
         # TODO: Enable SSL support and point to a hosted service
 
-        self._serverURL = "keyzio.herokuapp.com" #localhost" #samconfig.servername()
-        self._serverPort = 80 #3000 #samconfig.serverport()
-        self._useSSL = False
+        self._server_url = server_url
+        self._server_port = server_port
+        self._use_ssl = use_ssl
         self.auth_data = None
 
         #logging.debug("ServerURL: " + samconfig.servername())
@@ -85,9 +81,9 @@ class RestClient(object):
 
     def _url(self, path):
         return "{scheme}://{server}:{port}/{api_path}".format(
-            scheme='https' if self._useSSL else 'http',
-            server=self._serverURL,
-            port=self._serverPort,
+            scheme='https' if self._use_ssl else 'http',
+            server=self._server_url,
+            port=self._server_port,
             api_path=path
         )
 
@@ -113,13 +109,13 @@ class RestClient(object):
         self._api().params['user_id'] = self.auth_data['id']
         self._api().params['access_token'] = self.auth_data['access_token']
 
-    def create_user(self, username, password):
-        return self.post(self.USERS_PATH, {'email':username, 'password':password}).json()
-
-    def authenticate(self, username, password):
-        # Very basic authentication, other authentication mechanisms will be added
-        if self.post(self.SESSIONS_PATH, {'email':username, 'password':password}).status_code != 200:
-            raise AuthFailure
+    # def create_user(self, username, password):
+    #     return self.post(self.USERS_PATH, {'email':username, 'password':password}).json()
+    #
+    # def authenticate(self, username, password):
+    #     # Very basic authentication, other authentication mechanisms will be added
+    #     if self.post(self.SESSIONS_PATH, {'email':username, 'password':password}).status_code != 200:
+    #         raise AuthFailure
 
     def get_new_key(self, key_id):
         return self.post(self.USER_KEY_PATH, data={'identifier':key_id}).json()

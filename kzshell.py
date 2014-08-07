@@ -3,7 +3,7 @@ __author__ = 'James FitzGerald'
 # Provides a basic shell interface demonstrating a sample client that makes use of the keyzio library
 from cmd2 import Cmd
 import restclient
-
+import keyzio
 
 
 class KzShell(Cmd):
@@ -19,10 +19,17 @@ class KzShell(Cmd):
         self._logged_in = False
         # todo: Clean up use of rest client for ASP purposes
         self._asp_rest_client = restclient.RestClient()
-        self._asp_rest_client._serverPort = 3000
-        self._asp_rest_client._serverURL = "localhost"
+        self._asp_rest_client._server_port = 3000
+        self._asp_rest_client._server_url = "localhost"
 
-
+        self._keyzio = keyzio.KeyZIO()
+        # This next section is temporary, I am going to load a key directly from disk
+        # but we really expect to get this from the ASP
+        #
+        with open('userkey.pem', 'r') as f:
+            private_key = f.read()
+            f.close()
+        self._keyzio.inject_user_key(private_key)
 
     def do_login(self, arg):
         'Logs the user in and sets up the users keyzio session: login-user username'
@@ -46,7 +53,6 @@ class KzShell(Cmd):
         if not self._logged_in:
             print "You need to login first"
         return self._logged_in
-
 
 
 def main():
