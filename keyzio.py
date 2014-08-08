@@ -18,6 +18,7 @@ class InvalidKeyException(Exception):
     def __str__(self):
         return "Cannot unwrap this key"
 
+
 class KeyZIO(object):
     """
     Client side API for Keyzio
@@ -29,7 +30,11 @@ class KeyZIO(object):
         self._rest_client = restclient.RestClient()
 
     def inject_user_key(self, user_private_key_pem, user_id):
-        self._user_private_key =  RSA.importKey(user_private_key_pem)
+        """
+        Injects the users private key and id so that they can unwrap keyzio data keys
+        The private key is expected to be in PEM format
+        """
+        self._user_private_key = RSA.importKey(user_private_key_pem)
         self._user_id = user_id
 
     def _process_file(self, file_in, file_out, encrypt, key_id=None):

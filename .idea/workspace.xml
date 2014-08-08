@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="236edfa4-d511-4927-806f-5b8f3b2700e1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kzshell.py" afterPath="$PROJECT_DIR$/kzshell.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/keyzio.py" afterPath="$PROJECT_DIR$/keyzio.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
     </list>
     <ignored path="keys_client.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -14,7 +13,7 @@
     <file path="/project.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1406739636938" ignored="false" />
     <file path="/restclient.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407444368896" ignored="false" />
     <file path="/fragment.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407519243819" ignored="false" />
-    <file path="/keyzio.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407519271598" ignored="false" />
+    <file path="/keyzio.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407525469672" ignored="false" />
     <file path="/authenticate.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1406751261271" ignored="false" />
     <file path="/kzcmd.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407184448987" ignored="false" />
     <file path="/kzshell.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407521579929" ignored="false" />
@@ -43,10 +42,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="keyzio.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="keyzio.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/keyzio.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="7" selection-start="546" selection-end="546" vertical-scroll-proportion="0.0">
+            <state line="12" column="0" selection-start="249" selection-end="249" vertical-scroll-proportion="0.053398058">
               <folding>
                 <element signature="e#33#50#0" expanded="true" />
               </folding>
@@ -94,10 +93,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="requirements.txt" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="requirements.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="10" selection-start="508" selection-end="508" vertical-scroll-proportion="0.29126215">
+            <state line="12" column="10" selection-start="508" selection-end="508" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -138,14 +137,15 @@
         <option value="$PROJECT_DIR$/kzcmd.py" />
         <option value="$PROJECT_DIR$/restclient.py" />
         <option value="$PROJECT_DIR$/kzheader.py" />
-        <option value="$PROJECT_DIR$/keyzio.py" />
         <option value="$PROJECT_DIR$/kzshell.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/keyzio.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="30" />
+    <option name="x" value="260" />
+    <option name="y" value="35" />
     <option name="width" value="1450" />
     <option name="height" value="922" />
   </component>
@@ -452,13 +452,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="30" width="1450" height="922" extended-state="0" />
+    <frame x="260" y="35" width="1450" height="922" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329602" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329602" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31965175" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.044871796" sideWeight="0.8034826" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26994303" sideWeight="0.8034826" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11111111" sideWeight="0.8034826" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19651741" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -630,15 +630,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/keyzio.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="7" selection-start="546" selection-end="546" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#33#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kzshell.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="0" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
@@ -650,8 +641,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="10" selection-start="508" selection-end="508" vertical-scroll-proportion="0.29126215">
+        <state line="12" column="10" selection-start="508" selection-end="508" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/keyzio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="249" selection-end="249" vertical-scroll-proportion="0.053398058">
+          <folding>
+            <element signature="e#33#50#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
