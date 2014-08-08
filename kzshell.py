@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 __author__ = 'James FitzGerald'
 
 # Provides a basic shell interface demonstrating a sample client that makes use of the keyzio library

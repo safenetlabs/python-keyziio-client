@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="236edfa4-d511-4927-806f-5b8f3b2700e1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/keyzio.py" afterPath="$PROJECT_DIR$/keyzio.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kzheader.py" afterPath="$PROJECT_DIR$/kzheader.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kzshell.py" afterPath="$PROJECT_DIR$/kzshell.py" />
     </list>
     <ignored path="keys_client.iws" />
@@ -17,7 +15,7 @@
     <file path="/keyzio.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407519271598" ignored="false" />
     <file path="/authenticate.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1406751261271" ignored="false" />
     <file path="/kzcmd.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407184448987" ignored="false" />
-    <file path="/kzshell.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407519312534" ignored="false" />
+    <file path="/kzshell.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407521579929" ignored="false" />
     <file path="/kzheader.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407519217695" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,10 +41,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="keyzio.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="keyzio.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/keyzio.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="7" selection-start="546" selection-end="546" vertical-scroll-proportion="-0.6262136">
+            <state line="24" column="7" selection-start="546" selection-end="546" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#33#50#0" expanded="true" />
               </folding>
@@ -65,12 +63,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="kzshell.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="kzshell.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/kzshell.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="0" selection-start="1892" selection-end="1892" vertical-scroll-proportion="0.0">
+            <state line="37" column="30" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.89805824">
               <folding>
-                <element signature="e#135#155#0" expanded="true" />
+                <element signature="e#158#178#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -149,9 +147,9 @@
         <option value="$PROJECT_DIR$/kzcmd.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/restclient.py" />
-        <option value="$PROJECT_DIR$/kzshell.py" />
         <option value="$PROJECT_DIR$/kzheader.py" />
         <option value="$PROJECT_DIR$/keyzio.py" />
+        <option value="$PROJECT_DIR$/kzshell.py" />
       </list>
     </option>
   </component>
@@ -648,20 +646,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/kzshell.py">
+    <entry file="file://$PROJECT_DIR$/keyzio.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1892" selection-end="1892" vertical-scroll-proportion="0.0">
+        <state line="24" column="7" selection-start="546" selection-end="546" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#135#155#0" expanded="true" />
+            <element signature="e#33#50#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/keyzio.py">
+    <entry file="file://$PROJECT_DIR$/kzshell.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="7" selection-start="546" selection-end="546" vertical-scroll-proportion="-0.6262136">
+        <state line="37" column="30" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.89805824">
           <folding>
-            <element signature="e#33#50#0" expanded="true" />
+            <element signature="e#158#178#0" expanded="true" />
           </folding>
         </state>
       </provider>
