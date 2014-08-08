@@ -35,5 +35,5 @@ The '!' character will allow you to execute shell commands like 'ls' pretty cool
 Keyzio API
 ----------
 
-The API is exposed via the keyzio module.  PyDoc output [is here](keyzio.html)
+The API is exposed via the keyzio module.  PyDoc output [is here](doc/keyzio.html)
 
