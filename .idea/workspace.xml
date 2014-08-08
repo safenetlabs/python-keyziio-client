@@ -3,11 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="236edfa4-d511-4927-806f-5b8f3b2700e1" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kzshell.py" afterPath="$PROJECT_DIR$/kzshell.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="keys_client.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407421086059" ignored="false" />
-    <file path="/requirements.txt" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407354262353" ignored="false" />
+    <file path="/requirements.txt" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407522912939" ignored="false" />
     <file path="/mainview.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1406564201230" ignored="false" />
     <file path="/project.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1406739636938" ignored="false" />
     <file path="/restclient.py" changelist="236edfa4-d511-4927-806f-5b8f3b2700e1" time="1407444368896" ignored="false" />
@@ -52,21 +54,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PKCS1_OAEP.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Library/Python/2.7/site-packages/Crypto/Cipher/PKCS1_OAEP.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="208" column="26" selection-start="7587" selection-end="7587" vertical-scroll-proportion="0.0">
-              <folding>
-                <marker date="1406560885000" expanded="false" signature="1265:1346" placeholder="import ..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="kzshell.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="kzshell.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/kzshell.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="30" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.89805824">
+            <state line="9" column="0" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#158#178#0" expanded="true" />
               </folding>
@@ -103,10 +94,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="requirements.txt" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="requirements.txt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="13" selection-start="511" selection-end="511" vertical-scroll-proportion="0.0">
+            <state line="12" column="10" selection-start="508" selection-end="508" vertical-scroll-proportion="0.29126215">
               <folding />
             </state>
           </provider>
@@ -145,11 +136,11 @@
         <option value="$PROJECT_DIR$/authenticate.py" />
         <option value="$PROJECT_DIR$/project.py" />
         <option value="$PROJECT_DIR$/kzcmd.py" />
-        <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/restclient.py" />
         <option value="$PROJECT_DIR$/kzheader.py" />
         <option value="$PROJECT_DIR$/keyzio.py" />
         <option value="$PROJECT_DIR$/kzshell.py" />
+        <option value="$PROJECT_DIR$/requirements.txt" />
       </list>
     </option>
   </component>
@@ -588,13 +579,6 @@
         <state line="10" column="7" selection-start="315" selection-end="315" vertical-scroll-proportion="-0.6451613" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="511" selection-end="511" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/restclient.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="110" column="0" selection-start="3758" selection-end="3758" vertical-scroll-proportion="0.0">
@@ -608,7 +592,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="208" column="26" selection-start="7587" selection-end="7587" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1406560885000" expanded="false" signature="1265:1346" placeholder="import ..." />
+            <marker date="1406560885000" expanded="false" signature="-1:-1" placeholder="import ..." />
           </folding>
         </state>
       </provider>
@@ -657,10 +641,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/kzshell.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="30" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.89805824">
+        <state line="9" column="0" selection-start="212" selection-end="212" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#158#178#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="10" selection-start="508" selection-end="508" vertical-scroll-proportion="0.29126215">
+          <folding />
         </state>
       </provider>
     </entry>

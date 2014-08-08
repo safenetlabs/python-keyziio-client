@@ -34,7 +34,6 @@ class KzShell(Cmd):
         print "Successfully retrieved user key and ignited keyzio client"
         print "done"
 
-
     def do_encrypt(self, arg):
         'Encrypts input_file with key_id to output_file: encrypt input_file output_file key_id'
         if self._login_check():
