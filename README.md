@@ -35,5 +35,26 @@ The '!' character will allow you to execute shell commands like 'ls' pretty cool
 Keyzio API
 ----------
 
-The API is exposed via the keyzio module.  PyDoc output [is here](doc/keyzio.md)
+The API is exposed via the keyzio module.
+
+**class keyzio.Keyzio** 
+
+*Methods*
+
+<code>__init__(self)</code>
+
+<code>decrypt_file(self, file_in, file_out)</code>
+
+Decrypts file_in using key_id.  It will create the key if it has to.
+
+<code>encrypt_file(self, file_in, file_out, key_id)</code>
+
+Encrypts file_in using key_id.  It will create the key if it has to.
+
+<code>inject_user_key(self, user_private_key_pem, user_id)</code>
+
+Injects the users private key and id so that they can unwrap keyzio data keys
+The private key is expected to be in PEM format
+
+
 
