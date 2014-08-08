@@ -32,3 +32,8 @@ This will decrypt the encrypted file 'an_encrypted_input_file' to 'an_output_fil
 > !ls
 The '!' character will allow you to execute shell commands like 'ls' pretty cool huh!
 
+Keyzio API
+----------
+
+The API is exposed via the keyzio module.  PyDoc output [is here](keyzio.html)
+
