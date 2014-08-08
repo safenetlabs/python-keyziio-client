@@ -2,13 +2,17 @@ __author__ = 'James FitzGerald'
 import struct
 import json
 
+
 class KeyzioDecodeException(Exception):
-    """ File is either not a keyzio file or does not have a valid header """
-    pass
+    """ File is either not an encrypted keyzio file or does not have a valid header """
+    def __str__(self):
+        return "File is either not an encrypted keyzio file or does not have a valid header"
+
 
 class UnsupportedKeyzioVersionException(Exception):
     """ File is a newer version then this client can work with """
-    pass
+    def __str__(self):
+        return "File is a newer version then this client can work with"
 
 
 class Header(object):
@@ -71,6 +75,8 @@ class Header(object):
 
     def _decode_fixed_header_section(self, packed_header):
         """ Decodes the header, throws exceptions if it is invalid and returns the length of the data section """
+        if len(packed_header) < self._FIXED_HEADER_SECTION_LENGTH:
+            raise KeyzioDecodeException
         offset = 0
         # prelude
         self._preamble = struct.unpack_from(self._PREAMBLE_FORMAT, packed_header, offset)[0]

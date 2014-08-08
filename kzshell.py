@@ -10,7 +10,7 @@ class KzShell(Cmd):
 
     intro = "Sample application using the Keyzio service.  Type help or ? to list commands.\n"
     prompt = '(ezpz) '
-    file = None
+    #file = None
 
     def __init__(self):
         # Cmd is an old style class (not derived from object) so we have to use
@@ -23,14 +23,14 @@ class KzShell(Cmd):
         self._asp_rest_client._server_url = "localhost"
         self._keyzio = keyzio.KeyZIO()
 
-
     def do_login(self, arg):
         'Logs the user in and sets up the users keyzio session: login-user username'
         print "logging {} in...".format(arg)
         response = self._asp_rest_client.api_call("GET", "user_keys/{}".format(arg)).json()
         self._keyzio.inject_user_key(response['private_key'], response['id'])
         self._logged_in = True
-        print "Successfully retrieved user key and ignited keyzio"
+        print "Successfully retrieved user key and ignited keyzio client"
+        print "done"
 
 
     def do_encrypt(self, arg):
@@ -40,8 +40,9 @@ class KzShell(Cmd):
             if len(arg_split) < 3:
                 print "Invalid arguments.  Usage: encrypt input_file output_file key_id"
             else:
-                print "pretending to encrypt {} with key:{}".format(arg_split[0], arg_split[2])
+                print "encrypting {} with key:{}...".format(arg_split[0], arg_split[2])
                 self._keyzio.encrypt_file(*arg_split)
+                print "done"
 
     def do_decrypt(self, arg):
         'Decrypts input file to output file.  Gets the key_id from the file header'
@@ -50,8 +51,9 @@ class KzShell(Cmd):
             if len(arg_split) < 2:
                 print "Invalid arguments.  Usage: decrypt input_file output_file"
             else:
-                print "pretending to decrypt {}".format(arg_split[0])
+                print "decrypting {}...".format(arg_split[0])
                 self._keyzio.decrypt_file(*arg_split)
+                print "done"
 
     def _login_check(self):
         if not self._logged_in:

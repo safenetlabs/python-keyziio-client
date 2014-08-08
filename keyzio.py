@@ -7,6 +7,16 @@ import os.path
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
+#import random
+import os
+import binascii
+
+from kzheader import KeyzioDecodeException
+
+class InvalidKeyException(Exception):
+    """ Cannot unwrap this key  """
+    def __str__(self):
+        return "Cannot unwrap this key"
 
 class KeyZIO(object):
     """
@@ -19,7 +29,6 @@ class KeyZIO(object):
         self._rest_client = restclient.RestClient()
 
     def inject_user_key(self, user_private_key_pem, user_id):
-        # todo: some validation of the key?
         self._user_private_key =  RSA.importKey(user_private_key_pem)
         self._user_id = user_id
 
@@ -56,11 +65,6 @@ class KeyZIO(object):
         """ Decrypts file_in using key_id.  It will create the key if it has to. """
         self._process_file(file_in, file_out, False)
 
-    # def encrypt(self, key_id, data_in):
-    #     """ Returns cipher text """
-    #     cipher = self._init_cipher(key_id)
-    #     return self._encrypt_chunk(cipher, data_in)
-
     def _encrypt_chunk(self, cipher, data_in, is_last_chunk):
         if is_last_chunk:
             pad_length = cipher.block_size - (len(data_in) % cipher.block_size)
@@ -73,30 +77,19 @@ class KeyZIO(object):
         data_out = cipher.decrypt(data_in)
         return data_out if not is_last_chunk else data_out[:-ord(data_out[-1])]
 
-    # def decrypt(self, key_id, data_in):
-    #     """ Returns plain text """
-    #     cipher = self._init_cipher(key_id)
-    #     return self._decrypt_chunk(cipher, data_in)
-
     def _init_cipher(self, key_id):
         key_json = self._rest_client.get_key(key_id, self._user_id)
         # Key is encrypted under the user key, we have to decrypt it
 
-        oaep_cipher = PKCS1_OAEP.new(self._user_private_key)
+        # todo: Should be an OAEP Cipher or better
+        #oaep_cipher = PKCS1_OAEP.new(self._user_private_key)
         p15cipher = PKCS1_v1_5.new(self._user_private_key)
         wrapped_key = base64.b64decode(key_json['key'])
 
-        # debugging...
-
-        # if oaep_cipher.can_decrypt():
-        #     print "oaep can decrypt"
-        #
-        # if p15cipher.can_decrypt():
-        #     print "pkcs 1.5 can decrypt"
-
-        sentinel = "foo you"
-        #raw_key = oaep_cipher.decrypt(wrapped_key)
-
+        # Stupid api - create a random for sentinel
+        sentinel = binascii.b2a_hex(os.urandom(64))
         raw_key = p15cipher.decrypt(wrapped_key, sentinel)
+        if raw_key == sentinel:
+            raise InvalidKeyException()
         iv = base64.b64decode(key_json['iv'])
         return AES.new(raw_key, AES.MODE_CBC, iv)
