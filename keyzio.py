@@ -71,6 +71,8 @@ class KeyZIO(object):
         self._process_file(file_in, file_out, False)
 
     def _encrypt_chunk(self, cipher, data_in, is_last_chunk):
+        if len(data_in) == 0:
+            return ""
         if is_last_chunk:
             pad_length = cipher.block_size - (len(data_in) % cipher.block_size)
             if pad_length == 0:
@@ -79,6 +81,8 @@ class KeyZIO(object):
         return cipher.encrypt(data_in)
 
     def _decrypt_chunk(self, cipher, data_in, is_last_chunk):
+        if len(data_in) == 0:
+            return ""
         data_out = cipher.decrypt(data_in)
         return data_out if not is_last_chunk else data_out[:-ord(data_out[-1])]
 
