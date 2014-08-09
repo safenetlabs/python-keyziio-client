@@ -12,17 +12,16 @@ Usage
 You need pip installed to install the requirements.  You can google this for yourself it will be fun.
 
 * Install the python pre-requisites by executing the following command at the command line from the root directory of the repository:
-> pip install -r requirements.txt
+<code>pip install -r requirements.txt</code>
 
 * On the command line execute:
-> ./kzshell.py
+<code>./kzshell.py</code>
 
 * The shell should now be running.  Here are some basics to get you started:
 
-> login some_username
+<code>login some_username</code>
 
-This will create a user if one does not exist and retrieve the users private key from the ASP (Application Service Provider) and injects
-it into the keyzio library.
+This will create a user if one does not exist and retrieve the users private key from the ASP (Application Service Provider) and injects it into the keyzio library.
 
 <code>encrypt an_input_file an_output_file a_key_identifier</code>
 
