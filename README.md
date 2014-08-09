@@ -14,6 +14,8 @@ You need pip installed to install the requirements.  You can google this for you
 * Install the python pre-requisites by executing the following command at the command line from the root directory of the repository:
 <code>pip install -r requirements.txt</code>
 
+* Get the ASP Server repository and run it according to its instructions (todo: add in the links).  The sample application expects the server to be running locally on port 3000 (ie. http://localserver:3000)
+
 * On the command line execute:
 <code>./kzshell.py</code>
 
