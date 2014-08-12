@@ -1,13 +1,5 @@
 # This file contains dependencies common to all platforms.
-
-# Recommended installation on mac (homebrew):
-# 1. `brew install python`
-# 2. Add /usr/local/share/python to your path in your ~/.bash_profile or whatever
-# 3. `pip install virtualenv`
-# 4. cd to client/sam/sam then `virtualenv --distribute venv`
-# 5. `source venv/bin/activate`  You are now working in the isolated environment.  run `pip freeze` to see what's
-#    installed there
-# 6. `pip install -r requirements.txt`
+# `pip install -r requirements.txt`
 
 requests==2.0.1
 py==1.4.12
