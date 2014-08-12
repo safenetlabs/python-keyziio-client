@@ -14,7 +14,7 @@ class KzShell(cmd2.Cmd):
     def __init__(self):
         # Cmd is an old style class (not derived from object) so we have to use
         # _init_ directly
-        cmd2.Cmd.__init__(self, None, None)
+        cmd2.Cmd.__init__(self)
         self._logged_in = False
         self._username = None
         self._asp_rest_client = restclient.RestClient()
