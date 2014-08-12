@@ -11,18 +11,8 @@ import base64
 import os
 import requests
 import requests.exceptions
+import requests.auth
 import traceback
-
-NEW_KEY_PATH = "keyz/new"    # GET
-GET_KEY_PATH = "keyz"         # GET
-
-#define USERS_URL [NSString stringWithFormat:@"%@%@",SERVER,@"/users"]
-#define USER_URL [NSString stringWithFormat:@"%@%@",SERVER,@"/user"]
-#define USER_URL_AUTH(AUTH_TOKEN) [NSString stringWithFormat:(@"%@?auth_token=%@"),USER_URL,AUTH_TOKEN]
-
-def password_digest(authSalt, password):
-    pw_digest = base64.b64encode(hashlib.sha512(password + authSalt).digest())
-    return pw_digest
 
 class AuthFailure(Exception):
     """ Authentication attempt failed"""
@@ -68,10 +58,16 @@ class SmRestHandler():
 class RestClient(object):
     """ Our Rest Client """
 
-    def __init__(self):
-        self._serverURL = "localhost" #samconfig.servername()
-        self._serverPort = 3000 #samconfig.serverport()
-        self._useSSL = False
+    USER_KEY_PATH = "api/v1/data_keys/{}"
+    SESSIONS_PATH = "sessions.json"
+    USERS_PATH = "users.json"
+
+    def __init__(self, server_url="safex-demo.herokuapp.com", server_port=80, use_ssl=False):
+        # TODO: Enable SSL support and point to a hosted service
+
+        self._server_url = server_url
+        self._server_port = server_port
+        self._use_ssl = use_ssl
         self.auth_data = None
 
         #logging.debug("ServerURL: " + samconfig.servername())
@@ -85,100 +81,53 @@ class RestClient(object):
 
     def _url(self, path):
         return "{scheme}://{server}:{port}/{api_path}".format(
-            scheme='https' if self._useSSL else 'http',
-            server=self._serverURL,
-            port=self._serverPort,
+            scheme='https' if self._use_ssl else 'http',
+            server=self._server_url,
+            port=self._server_port,
             api_path=path
         )
 
     def _api(self):
         if not self._session:
             self._session = requests.session()
-            self._session.headers.update({'Accept': 'application/json', 'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer {0}'.format(self.auth_data['access_token'])})
+            self._session.headers.update({'Accept': 'application/json', 'Content-Type': 'application/json'})
+                #,'Authorization': 'Bearer {0}'.format(self.auth_data['access_token'])
+
             default_user_agent = self._session.headers['User-Agent']
             self._session.headers['User-Agent'] = 'Keyzio Python Client'
             #self._session.verify = os.path.abspath(os.path.join(sampaths.resources_path(), 'cacerts.txt'))
         return self._session
 
-    def _clear_auth_token(self):
-        api = self._api()
-        api.cookies.clear()
-        if 'auth_token' in api.params:
-            del api.params['auth_token']
+    # def _clear_auth_token(self):
+    #     api = self._api()
+    #     api.cookies.clear()
+    #     if 'auth_token' in api.params:
+    #         del api.params['auth_token']
+    #
+    # def set_oauth2_data(self, auth_data):
+    #     self.auth_data = auth_data
+    #     self._api().params['user_id'] = self.auth_data['id']
+    #     self._api().params['access_token'] = self.auth_data['access_token']
 
-    def set_auth_data(self, auth_data):
-        self.auth_data = auth_data
-        self._api().params['user_id'] = self.auth_data['id']
-        self._api().params['access_token'] = self.auth_data['access_token']
+    # def create_user(self, username, password):
+    #     return self.post(self.USERS_PATH, {'email':username, 'password':password}).json()
+    #
+    # def authenticate(self, username, password):
+    #     # Very basic authentication, other authentication mechanisms will be added
+    #     if self.post(self.SESSIONS_PATH, {'email':username, 'password':password}).status_code != 200:
+    #         raise AuthFailure
 
-    def get_new_key(self, key_id):
-        if key_id:
-            self._api().params['identifier'] = key_id
-        else:
-            self._api().params.pop("identifier", None)
+    # def get_new_key(self, key_id):
+    #     return self.post(self.USER_KEY_PATH, data={'identifier':key_id}).json()
 
+    def get_key(self, key_id, user_id):
+        # if key_id:
+        #     self._api().params['identifier'] = key_id
+        # else:
+        #     self._api().params.pop("identifier", None)
+        self._api().params['user_id'] = user_id
+        return self.get(self.USER_KEY_PATH.format(key_id)).json()
 
-        return self.get(NEW_KEY_PATH).json()
-
-    def get_key(self, key_id):
-        return self.get('keyz/{}'.format(key_id)).json()
-
-
-
-    #
-    # def getUserData(self):
-    #     """ User must have logged in already via login.  Returns the userBlob if the user has been onboarded,
-    #     raises AuthFailure if the auth failed. connection failure if not connected at all, or ServerFailure if other response"""
-    #     return self.get(USER_PATH).json()
-    #
-    # def uploadUserData(self, userData):
-    #     """ upload the userData dictionary """
-    #     return self.put(USER_PATH, data=userData)
-    #
-    # def uploadRecoveryPK(self, wrappedPK, keyId):
-    #     """upload the recovery key and key id"""
-    #     return self.post(RECOVERY_PATH, data={'key': wrappedPK, 'key_id': keyId}).json()
-    #
-    # def getRecoveryPKs(self):
-    #     """upload the recovery key and key id"""
-    #     return self.get(RECOVERY_PATH).json()
-    #
-    # def getResetKey(self):
-    #     return self.get(RESET_KEY_PATH).json()
-    #
-    # def getIncomingShares(self):
-    #     return self.get(INCOMING_SHARES_PATH).json()
-    #
-    # def getShares(self, etag=None):
-    #     response = self.get(SHARES_PATH, etag=etag)
-    #     # 304 is not modified
-    #     if response.status_code == 304:
-    #         return None, etag
-    #     return (response.json(), None if 'etag' not in response.headers else str(response.headers['etag']))
-    #
-    # def getShare(self, share_id):
-    #     return self.get("{}/{}".format(SHARES_PATH, share_id)).json()
-    #
-    # def getUser(self, user_id):
-    #     return self.get("{}/{}".format(USERS_PATH, user_id)).json()
-    #
-    # def createUser(self, user_dict):
-    #     return self.post(USERS_PATH, user_dict).json()
-    #
-    # def updateUser(self, user_id, user_dict):
-    #     return self.put("{}/{}".format(USERS_PATH, user_id), user_dict).status_code
-    #
-    # def createShare(self, key_id):
-    #     share = {
-    #         "key_id": key_id,
-    #         "key_type": "shek"
-    #     }
-    #     return self.post(SHARES_PATH, share).json()
-    #
-    # def updateShare(self, share_id, share_dict):
-    #     return self.put("{}/{}".format(SHARES_PATH, share_id), share_dict).status_code
-    #
     def put(self, path, data=None, **kwargs):
         return self.api_call('PUT', path, data, **kwargs)
 
@@ -208,17 +157,3 @@ class RestClient(object):
             response = doit(5)
             response.raise_for_status()
             return response
-    #
-    # def _challengeResponse(self, password, challenge, authSalt):
-    #     """ Doc on wiki is wrong.  Referencing David's code':
-    #         //1. pw_concat = savedPassword + authSalt
-    #         //2. pw_digest = (pw_concat sha512 (as bytes))base64
-    #         //3. challenge_concat = pw_digest + challenge
-    #         //4. response = ((challenge_concat) sha512)  base64 """
-    #
-    #     # My original version
-    #     pw_digest = password_digest(authSalt, password)
-    #     resp = base64.b64encode(hashlib.sha512(pw_digest + challenge).digest())
-    #
-    #     logging.debug("challenge response = %s" % resp)
-    #     return resp
