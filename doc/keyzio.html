@@ -1,14 +1,14 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html><head><title>Python: module keyzio</title>
+<html><head><title>Python: module keyziio</title>
 </head><body bgcolor="#f0f0f8">
 
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
 <tr bgcolor="#7799ee">
 <td valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>keyzio</strong></big></big></font></td
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>keyziio</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/jamesfitzgerald/Documents/devel/keyzio_client/keyzio.py">/Users/jamesfitzgerald/Documents/devel/keyzio_client/keyzio.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/jamesfitzgerald/Documents/devel/keyziio_client/keyziio.py">/Users/jamesfitzgerald/Documents/devel/keyziio_client/keyziio.py</a></font></td></tr></table>
     <p></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -37,13 +37,13 @@
 <dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
 </font></dt><dd>
 <dl>
-<dt><font face="helvetica, arial"><a href="keyzio.html#KeyZIO">KeyZIO</a>
+<dt><font face="helvetica, arial"><a href="keyziio.html#keyziio">keyziio</a>
 </font></dt></dl>
 </dd>
 <dt><font face="helvetica, arial"><a href="exceptions.html#Exception">exceptions.Exception</a>(<a href="exceptions.html#BaseException">exceptions.BaseException</a>)
 </font></dt><dd>
 <dl>
-<dt><font face="helvetica, arial"><a href="keyzio.html#InvalidKeyException">InvalidKeyException</a>
+<dt><font face="helvetica, arial"><a href="keyziio.html#InvalidKeyException">InvalidKeyException</a>
 </font></dt></dl>
 </dd>
 </dl>
@@ -57,7 +57,7 @@
 <td colspan=2><tt>Cannot&nbsp;unwrap&nbsp;this&nbsp;key<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
-<dd><a href="keyzio.html#InvalidKeyException">InvalidKeyException</a></dd>
+<dd><a href="keyziio.html#InvalidKeyException">InvalidKeyException</a></dd>
 <dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
 <dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
 <dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
@@ -113,20 +113,20 @@ Data descriptors inherited from <a href="exceptions.html#BaseException">exceptio
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="KeyZIO">class <strong>KeyZIO</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="keyziio">class <strong>keyziio</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>Client&nbsp;side&nbsp;API&nbsp;for&nbsp;Keyzio<br>
+<td colspan=2><tt>Client&nbsp;side&nbsp;API&nbsp;for&nbsp;keyziio<br>
 ...&nbsp;more&nbsp;details&nbsp;to&nbsp;be&nbsp;added&nbsp;on&nbsp;usage&nbsp;...<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="KeyZIO-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+<dl><dt><a name="keyziio-__init__"><strong>__init__</strong></a>(self)</dt></dl>
 
-<dl><dt><a name="KeyZIO-decrypt_file"><strong>decrypt_file</strong></a>(self, file_in, file_out)</dt><dd><tt>Decrypts&nbsp;file_in&nbsp;using&nbsp;key_id.&nbsp;&nbsp;It&nbsp;will&nbsp;create&nbsp;the&nbsp;key&nbsp;if&nbsp;it&nbsp;has&nbsp;to.</tt></dd></dl>
+<dl><dt><a name="keyziio-decrypt_file"><strong>decrypt_file</strong></a>(self, file_in, file_out)</dt><dd><tt>Decrypts&nbsp;file_in&nbsp;using&nbsp;key_id.&nbsp;&nbsp;It&nbsp;will&nbsp;create&nbsp;the&nbsp;key&nbsp;if&nbsp;it&nbsp;has&nbsp;to.</tt></dd></dl>
 
-<dl><dt><a name="KeyZIO-encrypt_file"><strong>encrypt_file</strong></a>(self, file_in, file_out, key_id)</dt><dd><tt>Encrypts&nbsp;file_in&nbsp;using&nbsp;key_id.&nbsp;&nbsp;It&nbsp;will&nbsp;create&nbsp;the&nbsp;key&nbsp;if&nbsp;it&nbsp;has&nbsp;to.</tt></dd></dl>
+<dl><dt><a name="keyziio-encrypt_file"><strong>encrypt_file</strong></a>(self, file_in, file_out, key_id)</dt><dd><tt>Encrypts&nbsp;file_in&nbsp;using&nbsp;key_id.&nbsp;&nbsp;It&nbsp;will&nbsp;create&nbsp;the&nbsp;key&nbsp;if&nbsp;it&nbsp;has&nbsp;to.</tt></dd></dl>
 
-<dl><dt><a name="KeyZIO-inject_user_key"><strong>inject_user_key</strong></a>(self, user_private_key_pem, user_id)</dt><dd><tt>Injects&nbsp;the&nbsp;users&nbsp;private&nbsp;key&nbsp;and&nbsp;id&nbsp;so&nbsp;that&nbsp;they&nbsp;can&nbsp;unwrap&nbsp;keyzio&nbsp;data&nbsp;keys<br>
+<dl><dt><a name="keyziio-inject_user_key"><strong>inject_user_key</strong></a>(self, user_private_key_pem, user_id)</dt><dd><tt>Injects&nbsp;the&nbsp;users&nbsp;private&nbsp;key&nbsp;and&nbsp;id&nbsp;so&nbsp;that&nbsp;they&nbsp;can&nbsp;unwrap&nbsp;keyziio&nbsp;data&nbsp;keys<br>
 The&nbsp;private&nbsp;key&nbsp;is&nbsp;expected&nbsp;to&nbsp;be&nbsp;in&nbsp;PEM&nbsp;format</tt></dd></dl>
 
 <hr>

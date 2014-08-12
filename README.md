@@ -1,11 +1,11 @@
-keyzio_client
+python-keyziio_client
 =============
 
 Introduction
 ------------
 
-The keyzio client library is intended to be integrated into applications wanting to encrypt or decrypt files using the keyzio service.
-It includes a sample command shell application (kzshell.py) and the keyzio library itself which is currently exposed as a python module (keyzio.py)
+The keyzio client library is intended to be integrated into applications wanting to encrypt or decrypt files using the keyziio service.
+It includes a sample command shell application (kzshell.py) and the keyziio library itself which is currently exposed as a python module (keyziio.py)
 
 Usage
 -----
@@ -23,7 +23,7 @@ You need pip installed to install the requirements.  You can google this for you
 
 <code>login some_username</code>
 
-This will create a user if one does not exist and retrieve the users private key from the ASP (Application Service Provider) and injects it into the keyzio library.
+This will create a user if one does not exist and retrieve the users private key from the ASP (Application Service Provider) and injects it into the keyziio library.
 
 <code>encrypt an_input_file an_output_file a_key_identifier</code>
 
@@ -37,12 +37,12 @@ This will decrypt the encrypted file 'an_encrypted_input_file' to 'an_output_fil
 
 The '!' character will allow you to execute shell commands like 'ls' pretty cool huh!
 
-Keyzio API
+keyziio API
 ----------
 
-The API is exposed via the keyzio module.
+The API is exposed via the keyziio module.
 
-**class keyzio.Keyzio** 
+**class keyziio.keyziio** 
 
 *Methods*
 
@@ -58,7 +58,7 @@ Encrypts file_in using key_id.  It will create the key if it has to.
 
 <code>inject_user_key(self, user_private_key_pem, user_id)</code>
 
-Injects the users private key and id so that they can unwrap keyzio data keys.
+Injects the users private key and id so that they can unwrap keyziio data keys.
 The private key is expected to be in PEM format.
 
 

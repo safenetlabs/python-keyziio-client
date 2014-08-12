@@ -7,11 +7,10 @@ import os.path
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
-#import random
 import os
 import binascii
 
-from kzheader import KeyzioDecodeException
+from kzheader import KeyziioDecodeException
 
 class InvalidKeyException(Exception):
     """ Cannot unwrap this key  """
@@ -19,7 +18,7 @@ class InvalidKeyException(Exception):
         return "Cannot unwrap this key"
 
 
-class KeyZIO(object):
+class Keyziio(object):
     """
     Client side API for Keyzio
     ... more details to be added on usage ...

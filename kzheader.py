@@ -3,7 +3,7 @@ import struct
 import json
 
 
-class KeyzioDecodeException(Exception):
+class KeyziioDecodeException(Exception):
     """ File is either not an encrypted keyzio file or does not have a valid header """
     def __str__(self):
         return "File is either not an encrypted keyzio file or does not have a valid header"
