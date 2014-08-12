@@ -62,7 +62,7 @@ class RestClient(object):
     SESSIONS_PATH = "sessions.json"
     USERS_PATH = "users.json"
 
-    def __init__(self, server_url="safex-demo.herokuapp.com", server_port=80, use_ssl=False):
+    def __init__(self, server_url="keyziio.herokuapp.com", server_port=80, use_ssl=False):
         # TODO: Enable SSL support and point to a hosted service
 
         self._server_url = server_url
