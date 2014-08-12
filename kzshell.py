@@ -49,8 +49,12 @@ class KzShell(cmd2.Cmd):
                 print "Invalid arguments.  Usage: encrypt <input_file> <output_file> <key_id>"
             else:
                 print "encrypting {} with key:{}...".format(arg_split[0], arg_split[2])
-                self._keyziio.encrypt_file(*arg_split)
-                print "done"
+                try:
+                    self._keyziio.encrypt_file(*arg_split)
+                except keyziio.ServerFailure, keyziio.ConnectionFailure:
+                    print "Unable to encrypt.  Failed to connect to server"
+                else:
+                    print "done"
 
     def do_decrypt(self, arg):
         'decrypt: Decrypts input file to output file.  Gets the key_id from the file header.  Usage: decrypt <input_file> <output_file>'
@@ -60,8 +64,12 @@ class KzShell(cmd2.Cmd):
                 print "Invalid arguments.  Usage: decrypt <input_file> <output_file>"
             else:
                 print "decrypting {}...".format(arg_split[0])
-                self._keyziio.decrypt_file(*arg_split)
-                print "done"
+                try:
+                    self._keyziio.decrypt_file(*arg_split)
+                except keyziio.ServerFailure, keyziio.ConnectionFailure:
+                    print "Unable to decrypt.  Failed to connect to server"
+                else:
+                    print "done"
 
     def _login_check(self):
         if not self._logged_in:
