@@ -1,4 +1,4 @@
-python-keyziio_client
+python-keyziio-client
 =============
 
 Introduction
@@ -9,12 +9,14 @@ It includes a sample command shell application (kzshell.py) and the keyziio libr
 
 Usage
 -----
-You need pip installed to install the requirements.  You can google this for yourself it will be fun.
+You need pip installed to install the requirements.
 
 * Install the python pre-requisites by executing the following command at the command line from the root directory of the repository:
 <code>pip install -r requirements.txt</code>
 
-* Get the ASP Server repository and run it according to its instructions (todo: add in the links).  The sample application expects the server to be running locally on port 3000 (ie. http://localserver:3000)
+* Get the Node.js [keyziio agent sample application](https://github.com/safenetlabs/node-keyziio-agent-sample).   The sample application expects the server 
+to be running locally on port 3000 (ie. http://localserver:3000).   The source can be changed if it is running at another
+location
 
 * On the command line execute:
 <code>./kzshell.py</code>
