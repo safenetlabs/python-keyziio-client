@@ -51,7 +51,7 @@ class KzShell(cmd2.Cmd):
                 print "encrypting {} with key:{}...".format(arg_split[0], arg_split[2])
                 try:
                     self._keyziio.encrypt_file(*arg_split)
-                except keyziio.ServerFailure, keyziio.ConnectionFailure:
+                except restclient.ServerFailure, restclient.ConnectionFailure:
                     print "Unable to encrypt.  Failed to connect to server"
                 else:
                     print "done"
@@ -66,7 +66,7 @@ class KzShell(cmd2.Cmd):
                 print "decrypting {}...".format(arg_split[0])
                 try:
                     self._keyziio.decrypt_file(*arg_split)
-                except keyziio.ServerFailure, keyziio.ConnectionFailure:
+                except restclient.ServerFailure, keyziio.ConnectionFailure:
                     print "Unable to decrypt.  Failed to connect to server"
                 else:
                     print "done"

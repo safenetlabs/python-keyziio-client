@@ -9,6 +9,7 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
 import os
 import binascii
+import sys
 
 from kzheader import KeyziioDecodeException
 
@@ -16,14 +17,6 @@ class InvalidKeyException(Exception):
     """ Cannot unwrap this key  """
     def __str__(self):
         return "Cannot unwrap this key"
-
-class ServerFailure(Exception):
-    def __str__(self):
-        return "Server Failure"
-
-class ConnectionFailure(Exception):
-    def __str__(self):
-        return "Connection Failure"
 
 class Keyziio(object):
     """
@@ -93,13 +86,7 @@ class Keyziio(object):
         return data_out if not is_last_chunk else data_out[:-ord(data_out[-1])]
 
     def _init_cipher(self, key_id):
-        try:
-            key_json = self._rest_client.get_key(key_id, self._user_id)
-        except restclient.ConnectionFailure:  #  Re-raise our own so we are not dependent on restclient
-            raise ConnectionFailure
-        except restclient.ServerFailure:
-            raise ServerFailure
-
+        key_json = self._rest_client.get_key(key_id, self._user_id)
         # Key is encrypted under the user key, we have to decrypt it
 
         # todo: Should be an OAEP Cipher or better

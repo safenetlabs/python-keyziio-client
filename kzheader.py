@@ -37,7 +37,7 @@ class Header(object):
 
     def __init__(self):
         super(Header, self).__init__()
-        self._preamble = "www.keyzio.com Encrypted File"
+        self._preamble = "www.keyziio.com Encrypted File"
         self._key_id = None
         self._version = self._VERSION
 
@@ -76,7 +76,7 @@ class Header(object):
     def _decode_fixed_header_section(self, packed_header):
         """ Decodes the header, throws exceptions if it is invalid and returns the length of the data section """
         if len(packed_header) < self._FIXED_HEADER_SECTION_LENGTH:
-            raise KeyzioDecodeException
+            raise KeyziioDecodeException
         offset = 0
         # prelude
         self._preamble = struct.unpack_from(self._PREAMBLE_FORMAT, packed_header, offset)[0]
@@ -85,7 +85,7 @@ class Header(object):
         magic_number = struct.unpack_from(self._MAGIC_NUMBER_FORMAT, packed_header, offset)[0]
         offset += struct.calcsize(self._MAGIC_NUMBER_FORMAT)
         if (magic_number != self._MAGIC_NUMBER):
-            raise KeyzioDecodeException
+            raise KeyziioDecodeException
         # version
         self._version = struct.unpack_from(self._VERSION_FORMAT, packed_header, offset)[0]
         offset += struct.calcsize(self._VERSION_FORMAT)
