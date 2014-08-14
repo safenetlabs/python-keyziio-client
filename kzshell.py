@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 __author__ = 'James FitzGerald'
 
-# Provides a basic shell interface demonstrating a sample client that makes use of the keyzio library
+# Provides a basic shell interface demonstrating a sample client that makes use of the keyziio library
 import cmd2
 import restclient
 import keyziio
 
 class KzShell(cmd2.Cmd):
 
-    intro = "Sample application using the keyziio service.  Type help or ? to list commands.\n"
+    intro = "Sample application using the keyziio service. Type help or ? to list commands.\n"
     prompt = 'keyziio-client> '
 
     def __init__(self):
@@ -23,7 +23,7 @@ class KzShell(cmd2.Cmd):
         self._keyziio = keyziio.Keyziio()
 
     def do_login(self, arg):
-        'login: Logs the user in and sets up the users keyzio session.  Users are created automatically.  Usage: login <username>'
+        'login: Logs the user in and sets up the users keyziio session.  Users are created automatically.  Usage: login <username>'
         if self._logged_in:
             print "Already logged in as {}".format(self._username)
             return
@@ -40,6 +40,17 @@ class KzShell(cmd2.Cmd):
         self._logged_in = True
         print "Successfully retrieved user key and ignited keyziio client"
         print "done"
+
+    def do_logout(self, arg):
+        'logout: Logs the user out clearing the users keyziio session'
+        if self._logged_in:
+            print "Logging {} out...".format(self._username)
+            self._logged_in = False
+            self._username = None
+            self._keyziio = keyziio.Keyziio()
+            print "done"
+        else:
+            print "Try logging in first"
 
     def do_encrypt(self, arg):
         'encrypt: Encrypts input_file with key_id to output_file: Usage: encrypt <input_file> <output_file> <key_id>'
@@ -81,6 +92,7 @@ class KzShell(cmd2.Cmd):
             print "Supported commands"
             print "=================="
             print self.do_login.__doc__
+            print self.do_logout.__doc__
             print self.do_encrypt.__doc__
             print self.do_decrypt.__doc__
 
