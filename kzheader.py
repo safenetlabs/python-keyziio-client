@@ -30,7 +30,7 @@ class Header(object):
     _VERSION_FORMAT = "<L"
     _LENGTH_FORMAT = "<L"
 
-    _MAGIC_NUMBER = "d371004cba8d4fafaeb324f72a52d91b"
+    MAGIC_NUMBER = "d371004cba8d4fafaeb324f72a52d91b"
     _VERSION = 1
 
     _FIXED_HEADER_SECTION_LENGTH = 128 + 32 + 4 + 4 # pre
@@ -39,6 +39,7 @@ class Header(object):
         super(Header, self).__init__()
         self._preamble = "www.keyziio.com Encrypted File"
         self._key_id = None
+        self._mac = None
         self._version = self._VERSION
 
     @property
@@ -58,12 +59,23 @@ class Header(object):
     def key_id(self, value):
         self._key_id = value
 
+    @property
+    def mac(self):
+        return self._mac
+
+    @mac.setter
+    def mac(self, value):
+        self._mac = value
+
     def encode(self):
         """ returns a packed header """
         packed_prelude = struct.pack(self._PREAMBLE_FORMAT, self._preamble)
-        packed_magic_number = struct.pack(self._MAGIC_NUMBER_FORMAT, self._MAGIC_NUMBER)
+        packed_magic_number = struct.pack(self._MAGIC_NUMBER_FORMAT, self.MAGIC_NUMBER)
         packed_version = struct.pack(self._VERSION_FORMAT, self._VERSION)
-        header_content = json.dumps({'key_id':self._key_id})
+        header_dict = {'key_id':self._key_id}
+        if self._mac:
+            header_dict['mac'] = self._mac
+        header_content = json.dumps(header_dict)
         packed_header_content = struct.pack("<{}s".format(len(header_content)), header_content)
         packed_length = struct.pack(self._LENGTH_FORMAT, len(packed_header_content))
         return packed_prelude + packed_magic_number + packed_version + packed_length + packed_header_content
@@ -84,7 +96,7 @@ class Header(object):
         # magic number
         magic_number = struct.unpack_from(self._MAGIC_NUMBER_FORMAT, packed_header, offset)[0]
         offset += struct.calcsize(self._MAGIC_NUMBER_FORMAT)
-        if (magic_number != self._MAGIC_NUMBER):
+        if (magic_number != self.MAGIC_NUMBER):
             raise KeyziioDecodeException
         # version
         self._version = struct.unpack_from(self._VERSION_FORMAT, packed_header, offset)[0]
@@ -100,7 +112,9 @@ class Header(object):
         """ decodes the header content from offset of header_content """
         # header-data
         header_data = struct.unpack_from("<{}s".format(length), header_content, offset)[0]
-        self._key_id = json.loads(header_data)['key_id']
+        header_dict = json.loads(header_data)
+        self._key_id = header_dict['key_id']
+        self._mac = header_dict.get('mac', None)
 
     def decode_from_file(self, file_name):
         """

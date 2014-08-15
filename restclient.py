@@ -58,7 +58,7 @@ class SmRestHandler():
 class RestClient(object):
     """ Our Rest Client """
 
-    USER_KEY_PATH = "api/v1/data_keys/{}"
+    USER_KEY_PATH = "api/v1/data_keys"
     SESSIONS_PATH = "sessions.json"
     USERS_PATH = "users.json"
 
@@ -117,8 +117,10 @@ class RestClient(object):
     #     if self.post(self.SESSIONS_PATH, {'email':username, 'password':password}).status_code != 200:
     #         raise AuthFailure
 
-    # def get_new_key(self, key_id):
-    #     return self.post(self.USER_KEY_PATH, data={'identifier':key_id}).json()
+    def get_new_key(self, key_id, user_id):
+        self._api().params['user_id'] = user_id
+        self._api().params['name'] = key_id
+        return self.post(self.USER_KEY_PATH).json()
 
     def get_key(self, key_id, user_id):
         # if key_id:
@@ -126,7 +128,7 @@ class RestClient(object):
         # else:
         #     self._api().params.pop("identifier", None)
         self._api().params['user_id'] = user_id
-        return self.get(self.USER_KEY_PATH.format(key_id)).json()
+        return self.get("{}/{}".format(self.USER_KEY_PATH, key_id)).json()
 
     def put(self, path, data=None, **kwargs):
         return self.api_call('PUT', path, data, **kwargs)

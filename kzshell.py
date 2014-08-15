@@ -100,8 +100,6 @@ class KzShell(cmd2.Cmd):
             cmd2.Cmd.do_help(self, arg)
 
 
-
-
 def main():
     shell = KzShell()
     shell.cmdloop()

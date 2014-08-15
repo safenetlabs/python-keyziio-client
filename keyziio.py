@@ -7,6 +7,7 @@ import os.path
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
+from Crypto.Hash import SHA256, HMAC
 import os
 import binascii
 import sys
@@ -42,17 +43,22 @@ class Keyziio(object):
             header = kzheader.Header()
             header_length = header.decode_from_file(file_in)
             key_id = header.key_id
-        cipher = self._init_cipher(key_id)
+        cipher, mac = self._init_cipher(key_id, new_key=encrypt)
         plain_text_length = os.path.getsize(file_in)
         cipher_op = self._encrypt_chunk if encrypt else self._decrypt_chunk
         with open(file_in, 'rb') as f_in:
             if not encrypt:
+                # check the mac
+                if mac != header._mac:
+                    raise InvalidKeyException
                 f_in.seek(header_length)
             with open(file_out, 'wb') as f_out:
                 if encrypt:
                     # create a header
                     header = kzheader.Header()
                     header.key_id = key_id
+                    # calculate a mac
+                    header.mac = mac
                     f_out.write(header.encode())
                 bytes_remaining = plain_text_length
                 while bytes_remaining > 0:
@@ -85,12 +91,14 @@ class Keyziio(object):
         data_out = cipher.decrypt(data_in)
         return data_out if not is_last_chunk else data_out[:-ord(data_out[-1])]
 
-    def _init_cipher(self, key_id):
-        key_json = self._rest_client.get_key(key_id, self._user_id)
+    def _init_cipher(self, key_id, new_key):
+        """ Returns a tuple of a crypto cipher and a mac string
+        """
+        if new_key:
+            key_json = self._rest_client.get_new_key(key_id, self._user_id)
+        else:
+            key_json = self._rest_client.get_key(key_id, self._user_id)
         # Key is encrypted under the user key, we have to decrypt it
-
-        # todo: Should be an OAEP Cipher or better
-        #oaep_cipher = PKCS1_OAEP.new(self._user_private_key)
         p15cipher = PKCS1_v1_5.new(self._user_private_key)
         wrapped_key = base64.b64decode(key_json['key'])
 
@@ -99,5 +107,12 @@ class Keyziio(object):
         raw_key = p15cipher.decrypt(wrapped_key, sentinel)
         if raw_key == sentinel:
             raise InvalidKeyException()
+        mac = self._make_mac(raw_key)
         iv = base64.b64decode(key_json['iv'])
-        return AES.new(raw_key, AES.MODE_CBC, iv)
+        return AES.new(raw_key, AES.MODE_CBC, iv), mac
+
+    def _make_mac(self, raw_key):
+        """ Returns a MAC of the keyziio header magic number """
+        h = HMAC.new(key=raw_key, msg=kzheader.Header.MAGIC_NUMBER, digestmod=SHA256.SHA256Hash())
+        return h.hexdigest()
+
