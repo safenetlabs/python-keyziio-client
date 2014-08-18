@@ -1,10 +1,11 @@
 #!/usr/bin/env python
+from keyziio import kzrestclient, kzcrypt
+
 __author__ = 'James FitzGerald'
 
 # Provides a basic shell interface demonstrating a sample client that makes use of the keyziio library
 import cmd2
-import restclient
-import keyziio
+
 
 class KzShell(cmd2.Cmd):
 
@@ -17,10 +18,10 @@ class KzShell(cmd2.Cmd):
         cmd2.Cmd.__init__(self)
         self._logged_in = False
         self._username = None
-        self._asp_rest_client = restclient.RestClient()
+        self._asp_rest_client = kzrestclient.RestClient()
         self._asp_rest_client._server_port = 3000
         self._asp_rest_client._server_url = "localhost"
-        self._keyziio = keyziio.Keyziio()
+        self._keyziio = kzcrypt.Keyziio()
 
     def do_login(self, arg):
         'login: Logs the user in and sets up the users keyziio session.  Users are created automatically.  Usage: login <username>'
@@ -31,7 +32,7 @@ class KzShell(cmd2.Cmd):
         print "logging {} in...".format(arg)
         try:
             response = self._asp_rest_client.api_call("GET", "user_keys/{}".format(arg)).json()
-        except restclient.ConnectionFailure:
+        except kzrestclient.ConnectionFailure:
             print "Failed to connect to server for login"
             return
 
@@ -47,7 +48,7 @@ class KzShell(cmd2.Cmd):
             print "Logging {} out...".format(self._username)
             self._logged_in = False
             self._username = None
-            self._keyziio = keyziio.Keyziio()
+            self._keyziio = kzcrypt.Keyziio()
             print "done"
         else:
             print "Try logging in first"
@@ -62,7 +63,7 @@ class KzShell(cmd2.Cmd):
                 print "encrypting {} with key:{}...".format(arg_split[0], arg_split[2])
                 try:
                     self._keyziio.encrypt_file(*arg_split)
-                except restclient.ServerFailure, restclient.ConnectionFailure:
+                except kzrestclient.ServerFailure, kzrestclient.ConnectionFailure:
                     print "Unable to encrypt.  Failed to connect to server"
                 else:
                     print "done"
@@ -77,7 +78,7 @@ class KzShell(cmd2.Cmd):
                 print "decrypting {}...".format(arg_split[0])
                 try:
                     self._keyziio.decrypt_file(*arg_split)
-                except restclient.ServerFailure, keyziio.ConnectionFailure:
+                except kzrestclient.ServerFailure, keyziio.ConnectionFailure:
                     print "Unable to decrypt.  Failed to connect to server"
                 else:
                     print "done"

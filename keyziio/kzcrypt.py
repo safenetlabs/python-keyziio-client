@@ -1,18 +1,16 @@
+import kzheader, kzrestclient
+
 __author__ = 'James FitzGerald'
 
-import restclient
-import kzheader
 import base64
 import os.path
 from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
+from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Hash import SHA256, HMAC
 import os
 import binascii
-import sys
 
-from kzheader import KeyziioDecodeException
 
 class InvalidKeyException(Exception):
     """ Cannot unwrap this key  """
@@ -27,7 +25,7 @@ class Keyziio(object):
     CHUNK_LENGTH = 1024    # 1k at a time -- MUST BE A MULTIPLE OF CIPHER BLOCK SIZE (16 IN OUR CASE)
 
     def __init__(self):
-        self._rest_client = restclient.RestClient()
+        self._rest_client = kzrestclient.RestClient()
 
     def inject_user_key(self, user_private_key_pem, user_id):
         """
